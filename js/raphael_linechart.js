@@ -387,18 +387,25 @@ Raphael.fn.lineChart = function(method) {
     },
 
     // Caution: this would only work for the same number of records
-    setData: function(table) {
+    setData: function(table, width, height, option) {
+        
       var element = this,
         settings = this.lineChart.settings,
         o = this.customAttributes.lineChart,
-        width = settings.width,
-        height = settings.height,
+        width = (width)?(width):(settings.width),
+        height = (height)?(height):(settings.height),
         gutter = o.gutter,
-
         X = (width - gutter.left) / table.labels.length,
         max = Math.max.apply(Math, table.data),
-        Y, p, bgpp;
+        Y, p, bgpp, i;
 
+       for(i in settings){
+           if(option[i] != null && option[i] != undefined)
+           {
+               settings[i] = option[i];
+           }
+       }
+      
       table = helpers.getTable(element, o, table);
 
       if (table.labels.length != o.size) {
@@ -435,9 +442,12 @@ Raphael.fn.lineChart = function(method) {
           bgpp = bgpp.concat([a.x1, a.y1, x, y, a.x2, a.y2]);
         }
 
-        dot.animate({cy: y},
-          settings.animation.speed,
-          settings.animation.easing);
+        if(!settings.no_dot)
+        {
+            dot.animate({cy: y},
+              settings.animation.speed,
+              settings.animation.easing);
+        }
 
         // new popup data
 
