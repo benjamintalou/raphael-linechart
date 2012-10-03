@@ -435,9 +435,12 @@ Raphael.fn.lineChart = function(method) {
           bgpp = bgpp.concat([a.x1, a.y1, x, y, a.x2, a.y2]);
         }
 
-        dot.animate({cy: y},
-          settings.animation.speed,
-          settings.animation.easing);
+        if(!settings.no_dot)
+        {
+            dot.animate({cy: y},
+              settings.animation.speed,
+              settings.animation.easing);
+        }
 
         // new popup data
 
